@@ -2,7 +2,6 @@ package org.datastructure.trie.model;
 
 import org.springframework.stereotype.Component;
 
-import javax.swing.tree.TreeNode;
 import java.util.List;
 
 @Component
@@ -24,8 +23,8 @@ public class Trie {
             int index = this.getIndex(word.charAt(i));
             if( current.getChildren()[index]==null) {
                 current.getChildren()[index] = new TrieNode();
-             }  current = current.getChildren()[index];
-
+             }
+            current = current.getChildren()[index];
         }
         current.setEndLeaf(true);
         return this.printTrieStack(this.root);
@@ -53,6 +52,21 @@ public class Trie {
             }
         }
     }
+    public boolean isWord(TrieNode node, String stringInput, String prevTrieValueresult){
+        TrieNode[] currentNode = node.getChildren();
+
+        for(int i=0;i<stringInput.length();i++){
+            int index = getIndex(stringInput.charAt(i));
+            if(currentNode[index]!= null) {
+                if(currentNode[index].isEndLeaf() && (prevTrieValueresult+ getChar(index)).equals(prevTrieValueresult))
+                    return true;
+                return this.isWord(currentNode[index], stringInput, prevTrieValueresult + getChar(index));
+            }
+            if(stringInput.equals(prevTrieValueresult))
+                return true;
+        }
+        return false;
+    }
 
 
     public String printTrieStack(TrieNode node){
@@ -67,4 +81,13 @@ public class Trie {
         return builder.toString();
     }
 
+    public Boolean isWord(String inputString){
+        for(int i=0;i < inputString.length();i++){
+            boolean value = this.isWord(this.root, inputString.substring(0, i), "");
+            boolean value2 = this.isWord(this.root, inputString.substring(i,inputString.length() ), "");
+            if(value && value2)
+                return true;
+        }
+        return false;
+    }
 }

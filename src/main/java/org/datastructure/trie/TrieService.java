@@ -31,4 +31,8 @@ public class TrieService {
         this.trie.findWords(this.trie.root, resultArray, "");
         return resultArray;
     }
+
+    public Boolean isWord(String inputString) {
+        return this.trie.isWord(inputString);
+    }
 }

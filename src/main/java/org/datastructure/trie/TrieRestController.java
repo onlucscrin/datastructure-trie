@@ -57,4 +57,15 @@ public class TrieRestController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping(path = "/IsWord/{inputString}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> isWord(@PathVariable String inputString){
+        try{
+
+            Boolean result = this.trieService.isWord(inputString);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }
